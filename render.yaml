@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: translation-site
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: pnpm install --no-frozen-lockfile && pnpm --filter @workspace/translation-site run build && pnpm --filter @workspace/api-server run build
+    startCommand: node --enable-source-maps artifacts/api-server/dist/index.mjs
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: GROQ_API_KEY
+        sync: false
